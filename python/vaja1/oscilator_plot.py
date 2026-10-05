@@ -1,7 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from pathlib import Path
 
-data=np.loadtxt("../../output/vaja1/dusnih.dat")
+ROOT = Path(__file__).resolve().parents[2]  # see below
+data=np.loadtxt(ROOT / "output/vaja1/dusnih.dat")
 #data=np.loadtxt("dusnih.dat")
 #data=np.loadtxt("vzbujanonih.dat")
 

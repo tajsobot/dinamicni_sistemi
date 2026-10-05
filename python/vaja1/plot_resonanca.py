@@ -1,7 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from pathlib import Path
 
-data=np.loadtxt("resonanca.dat")
+ROOT = Path(__file__).resolve().parents[2]  # see below
+data=np.loadtxt(ROOT /"output/vaja1/dusnih.dat")
 OM=data[:,0]
 amp=data[:,1]
 '''print data
@@ -10,6 +12,5 @@ plt.plot(OM,amp)
 plt.scatter(OM,amp)
 plt.xlabel('frekvenca vzbujanja')
 plt.ylabel('amplituda nihanja')
-plt.savefig("resonanca_num.jpg",dpi=200,bbox_inches='tight')
 plt.show()
 plt.close()

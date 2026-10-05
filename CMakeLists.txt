@@ -12,5 +12,8 @@ add_executable(dinamicni_sistemi main.cpp
         src/vaja1/Vaja1.h
 )
 
+target_compile_definitions(dinamicni_sistemi PRIVATE PROJECT_ROOT="${CMAKE_SOURCE_DIR}")
+
 target_link_libraries(dinamicni_sistemi PRIVATE raylib Eigen3::Eigen)
+
 

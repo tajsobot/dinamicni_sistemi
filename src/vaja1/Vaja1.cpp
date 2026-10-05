@@ -22,21 +22,23 @@ Vaja1::Vaja1() {
   t = 0.0;
   dt = 0.00005;
   i = 0;
-  beta = 0.1;
+  beta = 0.4;
   F0 = 0.2;
   OM = 2.0;
   mod = 100;
 }
 
+
+//to je bogo... napacni output ni tak pomembno
 void Vaja1::matnihalo() {
-  out = fopen("../output/vaja1/matnih.dat", "w");
+  t = 0.0;
+  i = 0;
+  out = fopen(PROJECT_ROOT "/output/vaja1/matnih.dat", "w");
 
   while (t < 100) {
-    fi_new = fi + dt * om;
-    om_new = om + dt * (-g / l) * fi;
-    fi = fi_new;
-    om = om_new;
-    t = t + dt;
+    om += dt * (-g / l) * fi;  // semi-implicit Euler
+    fi += dt * om;
+    t += dt;
     if (i % mod == 0) {
       fprintf(out, "%.4f %.4f %.4f\n", t, fi, om);
     }
@@ -49,7 +51,7 @@ void Vaja1::dusnih() {
   t = 0.0;
   i = 0;
   fi_t.clear();
-  out = fopen("../output/vaja1/dusnih.dat", "w");
+  out = fopen(PROJECT_ROOT "/output/vaja1/dusnih.dat", "w");
 
   while (t < 100) {
     om += dt * ((-g / l) * fi - 2 * beta * om);  // semi-implicit Euler: om first,
@@ -74,7 +76,7 @@ void Vaja1::dusnih() {
 }
 
 void Vaja1::vzbujanonih() {
-  out = fopen("../output/vaja1/vzbujanonih.dat", "w");
+  out = fopen(PROJECT_ROOT "/output/vaja1/vzbujanonih.dat", "w");
   fi = 0.2;  // zacetni pogoj
   om = 0.0;
   t = 0.0;
