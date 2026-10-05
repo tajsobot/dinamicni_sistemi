@@ -22,27 +22,38 @@ Vaja1::Vaja1() {
   t = 0.0;
   dt = 0.00005;
   i = 0;
-  beta = 0.4;
+  beta = 0.05;
   F0 = 0.2;
   OM = 2.0;
   mod = 100;
 }
 
 
-//to je bogo... napacni output ni tak pomembno
-void Vaja1::matnihalo() {
+// todo ne dela vredu!
+void Vaja1::resonanca() {
+  out = fopen(PROJECT_ROOT "/output/vaja1/resonanca.dat", "w");
+  fi = 0.2;  // zacetni pogoj
+  om = 0.0;
   t = 0.0;
   i = 0;
-  out = fopen(PROJECT_ROOT "/output/vaja1/matnih.dat", "w");
+  maxamp = 0.0;
 
-  while (t < 100) {
-    om += dt * (-g / l) * fi;  // semi-implicit Euler
-    fi += dt * om;
-    t += dt;
-    if (i % mod == 0) {
-      fprintf(out, "%.4f %.4f %.4f\n", t, fi, om);
+  double OM_ranges[] = {1.0, 2.0, 3.0};
+
+  for (auto om_range : OM_ranges) {
+    while (t < 300) {
+      fi_new = fi + dt * om;
+      om_new = om + dt * ((-g / l) * fi - 2 * beta * om + F0 * cos(OM * t));
+      fi = fi_new;
+      om = om_new;
+      t = t + dt;
+      i++;
+      if (t > 200) {
+        if (fi > maxamp) maxamp = fi;  // poisce max amplitudo
+
+      }
     }
-    i++;
+    fprintf(out, "%.4f %.4f %.4f\n",om_range, maxamp);
   }
   fclose(out);
 }
